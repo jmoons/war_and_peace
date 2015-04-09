@@ -1,8 +1,9 @@
 class WarAndPeaceWordCounter
-  ILLEGAL_LINES               = ["WAR AND PEACE", "By Leo Tolstoy/Tolstoi", "CONTENTS"]
-  BOOK_REGULAR_EXPRESSION     = /^BOOK [A-Z]*:/
-  CHAPTER_REGULAR_EXPRESSION  = /^CHAPTER [A-Z]*/
-
+  ILLEGAL_LINES                     = ["WAR AND PEACE", "By Leo Tolstoy/Tolstoi", "CONTENTS"]
+  BOOK_REGULAR_EXPRESSION           = /^BOOK [A-Z]*:/
+  CHAPTER_REGULAR_EXPRESSION        = /^CHAPTER [A-Z]*/
+  DOUBLE_HYPHEN_REGULAR_EXPRESSION  = /--/
+  ASTERISK_REGULAR_EXPRESSION       = /\*/
   def initialize(file_to_parse)
     @word_count     = 0
     @file_to_parse  = File.open(file_to_parse, "r")
@@ -22,6 +23,8 @@ class WarAndPeaceWordCounter
 
   def update_word_count(candidate_line)
     if (candidate_line !~ BOOK_REGULAR_EXPRESSION) && (candidate_line !~ CHAPTER_REGULAR_EXPRESSION)
+      candidate_line.gsub!(DOUBLE_HYPHEN_REGULAR_EXPRESSION, " ")
+      candidate_line.gsub!(ASTERISK_REGULAR_EXPRESSION, " ")
       @word_count += candidate_line.split(" ").length
     end
   end
