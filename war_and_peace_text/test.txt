@@ -10,8 +10,12 @@ The quick Brown Fox
 
 CHAPTER I
 
+<<<<<<< HEAD
 conversation--"I often think how unfairly sometimes the joys of life are
 
 "I often think," she continued after a short pause, drawing nearer to
 
 "Baron Funke has been recommended to the Dowager Empress by her sister,"
+=======
+I see I have frightened you--sit down and tell me all the news.
+>>>>>>> 735ca4c53d1ffe4049afd35847842189e66c1ae9
