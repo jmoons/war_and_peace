@@ -20,7 +20,7 @@ class WarAndPeaceWordCounter
   BOOK_REGULAR_EXPRESSION           = /^BOOK [A-Z]*:/
   CHAPTER_REGULAR_EXPRESSION        = /^CHAPTER [A-Z]*/
   DOUBLE_HYPHEN_REGULAR_EXPRESSION  = /--/
-  PUNCTUATION_REGULAR_EXPRESSION    = /[^a-zA-Z0-9\s]/
+  PUNCTUATION_REGULAR_EXPRESSION    = /[^a-zA-Z0-9\-\s]/
   SHORT_WORD_CHARACTER_COUNT        = 6
 
   def initialize(file_to_parse)
@@ -36,7 +36,6 @@ class WarAndPeaceWordCounter
       candidate_line = candidate_line.strip
       next if reject_line?(candidate_line)
       filtered_candidate_line = filter_candidate_line(candidate_line)
-      update_word_count(filtered_candidate_line)
       iterate_through_line_words(filtered_candidate_line)
     end
     @file_to_parse.close
@@ -60,7 +59,11 @@ class WarAndPeaceWordCounter
   end
 
   def iterate_through_line_words(candidate_line)
-    candidate_line.split(" ").each do |word| 
+    array_of_line_words = candidate_line.split(" ")
+
+    update_word_count(array_of_line_words)
+
+    array_of_line_words.each do |word| 
       @short_word_count += 1    if word.length < SHORT_WORD_CHARACTER_COUNT
       if word.length > @longest_word[:word].length
         @longest_word[:word]                  = word
@@ -69,8 +72,8 @@ class WarAndPeaceWordCounter
     end
   end
 
-  def update_word_count(candidate_line)
-    @word_count += candidate_line.split(" ").length
+  def update_word_count(array_of_line_words)
+    @word_count += array_of_line_words.length
   end
 
   def update_short_word_count(candidate_line)
@@ -82,3 +85,4 @@ end
 WarAndPeaceWordCounter.new("war_and_peace_text/war_and_peace_stripped_header.txt").word_count
 # WarAndPeaceWordCounter.new("war_and_peace_text/test.txt").word_count
 # WarAndPeaceWordCounter.new("war_and_peace_text/short_word_test.txt").word_count
+# WarAndPeaceWordCounter.new("war_and_peace_text/punctuation_mix.txt").word_count
